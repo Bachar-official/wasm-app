@@ -18,7 +18,7 @@ const Fibonacci = () => {
         setLoading(true);
         setPerf(0);
         const start = performance.now();
-        const result = await calculate('fibonacci', [40], isWasm);
+        const result = await calculate('fibonacci', [1000], isWasm);
         const end = performance.now();
         setResult(result);
         setLoading(false);

@@ -1,24 +1,35 @@
 function fibonacci(n) {
-    if (n <= 1) return n;
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
+    if (n <= 0) return 0;
+    if (n === 1) return 1;
 
-function mandelbrot(x, y, maxIter) {
-    let r = x;
-    let i = y;
-    for (let a = 0; a < maxIter; a++) {
-        let tmpr = r * r - i * i + x;
-        let tmpi = 2 * r * i + y;
+    let a = 0, b = 1, c;
 
-        r = tmpr;
-        i = tmpi;
-
-        if (r * i > 5) {
-            return a / maxIter * 100;
-        }
+    for (let i = 2; i <= n; i++) {
+        c = a + b;
+        a = b;
+        b = c;
     }
 
-    return 0;
+    return b;
 }
+
+const mandelbrot = (x, y, maxIter) => {
+    let real = x;
+    let imag = y;
+    let n = 0;
+
+    while (n < maxIter) {
+        const real2 = real * real;
+        const imag2 = imag * imag;
+
+        if (real2 + imag2 > 4) break;
+
+        imag = 2 * real * imag + y;
+        real = real2 - imag2 + x;
+        n++;
+    }
+
+    return n;
+};
 
 export { fibonacci, mandelbrot };

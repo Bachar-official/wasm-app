@@ -1,24 +1,33 @@
-#include <stdio.h>
+double fibonacci(int n) {
+  if (n <= 0) return 0;
+  if (n == 1) return 1;
 
-int fibonacci(int n) {
-    if (n <= 1) return n;
-    return fibonacci(n - 1) + fibonacci(n - 2);
+  double a = 0, b = 1, c;
+
+  for (int i = 2; i <= n; i++) {
+      c = a + b;
+      a = b;
+      b = c;
+  }
+
+  return b;
 }
 
 float mandelbrot(float x, float y, int maxIter) {
-    float r = x;
-    float i = y;
-    for (int a = 0; a < maxIter; a++) {
-      float tmpr = r * r - i * i + x;
-      float tmpi = 2 * r * i + y;
-  
-      r = tmpr;
-      i = tmpi;
-  
-      if (r * i > 5) {
-        return a/(float) maxIter * 100;
-      }
+    float real = x;
+    float imag = y;
+    float n = 0;
+
+    while(n < maxIter) {
+      float r2 = real * real;
+      float i2 = imag * imag;
+
+      if (r2 + i2 > 4) break;
+
+      imag = 2 * real * imag + y;
+      real = r2 - i2 + x;
+      n++;
     }
-  
-    return 0;
+
+    return n;
 }
