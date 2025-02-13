@@ -1,18 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import module from '../../wasm/mandelbrot';
 
-const MandelbrotWASM = () => {
+const MandelbrotWASM = ({module}) => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
         const loadWASM = async () => {
-            try {
-                const Module = await module();
-                if (!Module.HEAPU8) {
-                    throw new Error('HEAPU8 is not defined');
-                }
-                const { _mandelbrot, _malloc, _free } = Module;
-        
+            try {        
                 const canvas = canvasRef.current;
                 const ctx = canvas.getContext('2d');
                 const width = canvas.width;
@@ -23,15 +16,15 @@ const MandelbrotWASM = () => {
                 const bufferSize = width * height * 4;
         
                 // Выделяем память в WASM
-                const outputPtr = _malloc(bufferSize);
+                const outputPtr = module._malloc(bufferSize);
         
                 // Замеряем время выполнения
                 const start = performance.now();
-                _mandelbrot(width, height, 1000, outputPtr);
+                module._mandelbrot(width, height, 100, outputPtr);
                 console.log(`WASM Time: ${performance.now() - start}ms`);
         
                 // Копируем данные из памяти WASM в JavaScript
-                const output = new Uint8Array(Module.HEAPU8.buffer, outputPtr, bufferSize);
+                const output = new Uint8Array(module.HEAPU8.buffer, outputPtr, bufferSize);
         
                 // Копируем данные в imageData
                 imageData.data.set(output);
@@ -40,7 +33,7 @@ const MandelbrotWASM = () => {
                 ctx.putImageData(imageData, 0, 0);
         
                 // Освобождаем память
-                _free(outputPtr);
+                module._free(outputPtr);
             } catch (error) {
                 console.error('Error loading WASM:', error);
             }

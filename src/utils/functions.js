@@ -13,22 +13,32 @@ function fibonacci(n) {
     return b;
 }
 
-function mandelbrot(x, y, maxIter) {
-    let real = 0; // Начальное значение для действительной части
-    let imag = 0; // Начальное значение для мнимой части
-    let n;
+function mandelbrotJS(width, height, maxIterations) {
+    const output = new Uint8Array(width * height * 4);
+    for (let py = 0; py < height; py++) {
+        for (let px = 0; px < width; px++) {
+            let x0 = (px / width) * 3.5 - 2.5;
+            let y0 = (py / height) * 2.0 - 1.0;
+            let x = 0;
+            let y = 0;
+            let iteration = 0;
 
-    for (n = 0; n < maxIter; n++) {
-        const r2 = real * real; // Квадрат действительной части
-        const i2 = imag * imag;  // Квадрат мнимой части
+            while (x * x + y * y <= 4 && iteration < maxIterations) {
+                const xtemp = x * x - y * y + x0;
+                y = 2 * x * y + y0;
+                x = xtemp;
+                iteration++;
+            }
 
-        if (r2 + i2 > 4) break; // Проверка выхода
-
-        imag = 2 * real * imag + y; // Обновление мнимой части
-        real = r2 - i2 + x;          // Обновление действительной части
+            const color = iteration === maxIterations ? 0 : (iteration * 255 / maxIterations);
+            const index = (py * width + px) * 4;
+            output[index] = color;     // R
+            output[index + 1] = color; // G
+            output[index + 2] = color; // B
+            output[index + 3] = 255;   // A
+        }
     }
-
-    return n; // Возвращаем количество итераций
+    return output;
 }
 
-export { fibonacci, mandelbrot };
+export { fibonacci, mandelbrotJS };

@@ -1,24 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { initWorker, calculate, terminateWorker } from '../../worker/workerService';
+import React, { useState } from 'react';
+import { fibonacci } from '../../utils/functions';
 
-const Fibonacci = () => {
+const ARGUMENT = 1000;
+
+const Fibonacci = ({module}) => {
     const [result, setResult] = useState(0);
     const [loading, setLoading] = useState(false);
     const [perf, setPerf] = useState(0);
-
-    useEffect(() => {
-        initWorker();
-
-        return () => {
-            terminateWorker();
-        };
-    }, []);
 
     const getResult = async (isWasm) => {
         setLoading(true);
         setPerf(0);
         const start = performance.now();
-        const result = await calculate('fibonacci', [1000], isWasm);
+        const result = isWasm ? module._fibonacci(ARGUMENT) : fibonacci(ARGUMENT);
         const end = performance.now();
         setResult(result);
         setLoading(false);
