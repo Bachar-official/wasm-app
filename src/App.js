@@ -43,7 +43,6 @@ function App() {
     <div>
       <p>Choose component to render:</p>
       <select onChange={(event) => {
-        terminateWorker();
         setPage(+event.target.value);
       }}>
         {Object.entries(components).map((c) => (<option key={`component${c[0]}`} value={c[0]}>{c[1]}</option>))}
