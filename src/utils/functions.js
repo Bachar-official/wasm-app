@@ -41,4 +41,28 @@ function mandelbrotJS(width, height, maxIterations) {
     return output;
 }
 
-export { fibonacci, mandelbrotJS };
+function isPrime(num) {
+    if (num <= 1) return false;
+    for (let i = 2; i * i <= num; i++) {
+        if (num % i === 0) return false;
+    }
+    return true;
+}
+
+async function getPrimes(n) {
+    const primes = [];
+    let count = 0;
+    let candidate = 2;
+
+    while (count < n) {
+        if (isPrime(candidate)) {
+            primes.push(candidate);
+            count++;
+        }
+        candidate++;
+    }
+
+    return Promise.resolve(primes);
+}
+
+export { fibonacci, mandelbrotJS, getPrimes };

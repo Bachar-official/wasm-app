@@ -4,6 +4,7 @@ import components from './constants/components';
 import Mandelbrot from './components/Mandelbrot';
 import MandelbrotWASM from './components/MandelbrotWASM';
 import module from './wasm/functions'
+import Primes from './components/Primes';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
       case 0: return <Fibonacci module={wasmModule} />;
       case 1: return <Mandelbrot />;
       case 2: return <MandelbrotWASM module={wasmModule} />;
+      case 3: return <Primes module={wasmModule} />;
       default: return null;
     }
   }

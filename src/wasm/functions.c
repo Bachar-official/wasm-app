@@ -1,5 +1,7 @@
 #include <stdint.h>
+#include <stdlib.h>
 #include <emscripten.h>
+#include <stdio.h>
 
 EMSCRIPTEN_KEEPALIVE
 void mandelbrot(int width, int height, int max_iterations, uint8_t* output) {
@@ -40,4 +42,25 @@ double fibonacci(int n) {
     }
 
     return b;
+}
+
+int is_prime(int num) {
+    if (num <= 1) return 0;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) return 0;
+    }
+    return 1;
+}
+
+EMSCRIPTEN_KEEPALIVE
+void get_primes(int n, uint32_t* primes) {
+    int count = 0;
+    int candidate = 2;
+
+    while (count < n) {
+        if (is_prime(candidate)) {
+            primes[count++] = candidate;
+        }
+        candidate++;
+    }
 }
