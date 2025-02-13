@@ -13,23 +13,22 @@ function fibonacci(n) {
     return b;
 }
 
-const mandelbrot = (x, y, maxIter) => {
-    let real = x;
-    let imag = y;
-    let n = 0;
+function mandelbrot(x, y, maxIter) {
+    let real = 0; // Начальное значение для действительной части
+    let imag = 0; // Начальное значение для мнимой части
+    let n;
 
-    while (n < maxIter) {
-        const real2 = real * real;
-        const imag2 = imag * imag;
+    for (n = 0; n < maxIter; n++) {
+        const r2 = real * real; // Квадрат действительной части
+        const i2 = imag * imag;  // Квадрат мнимой части
 
-        if (real2 + imag2 > 4) break;
+        if (r2 + i2 > 4) break; // Проверка выхода
 
-        imag = 2 * real * imag + y;
-        real = real2 - imag2 + x;
-        n++;
+        imag = 2 * real * imag + y; // Обновление мнимой части
+        real = r2 - i2 + x;          // Обновление действительной части
     }
 
-    return n;
-};
+    return n; // Возвращаем количество итераций
+}
 
 export { fibonacci, mandelbrot };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Fibonacci from './components/Fibonacci';
 import components from './constants/components';
 import Mandelbrot from './components/Mandelbrot';
+import MandelbrotWASM from './components/MandelbrotWASM';
 import { terminateWorker } from './worker/workerService';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     switch(page) {
       case 0: return <Fibonacci />;
       case 1: return <Mandelbrot />;
+      case 2: return <MandelbrotWASM />;
       default: return null;
     }
   }

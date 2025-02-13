@@ -1855,9 +1855,6 @@ var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__w
 var _fibonacci = Module["_fibonacci"] = createExportWrapper("fibonacci");
 
 /** @type {function(...*):?} */
-var _mandelbrot = Module["_mandelbrot"] = createExportWrapper("mandelbrot");
-
-/** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
 
 /** @type {function(...*):?} */

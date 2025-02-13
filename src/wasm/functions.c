@@ -12,22 +12,3 @@ double fibonacci(int n) {
 
   return b;
 }
-
-float mandelbrot(float x, float y, int maxIter) {
-    float real = x;
-    float imag = y;
-    float n = 0;
-
-    while(n < maxIter) {
-      float r2 = real * real;
-      float i2 = imag * imag;
-
-      if (r2 + i2 > 4) break;
-
-      imag = 2 * real * imag + y;
-      real = r2 - i2 + x;
-      n++;
-    }
-
-    return n;
-}

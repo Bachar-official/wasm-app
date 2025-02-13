@@ -1,50 +1,52 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import module from '../../wasm/mandelbrot';
 
-const WIDTH = 1024;
-const HEIGHT = 768;
-const MAX_ITER = 100;
-
-const Mandelbrot = () => {
-    const canvasRef = useRef(null);
-
-    const drawMandelbrot = () => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const imageData = ctx.createImageData(WIDTH, HEIGHT);
-        const data = imageData.data;
-
-        for (let x = 0; x < WIDTH; x++) {
-            for (let y = 0; y < HEIGHT; y++) {
-                let zx = 0;
-                let zy = 0;
-                let iteration = 0;
-                const cx = (x / WIDTH) * 4 - 2; // масштабирование по оси X
-                const cy = (y / HEIGHT) * 4 - 2; // масштабирование по оси Y
-
-                while (zx * zx + zy * zy < 4 && iteration < MAX_ITER) {
-                    const tmp = zx * zx - zy * zy + cx;
-                    zy = 2 * zx * zy + cy;
-                    zx = tmp;
-                    iteration++;
+function mandelbrotJS(width, height, maxIterations) {
+            const output = new Uint8Array(width * height * 4);
+            for (let py = 0; py < height; py++) {
+                for (let px = 0; px < width; px++) {
+                    let x0 = (px / width) * 3.5 - 2.5;
+                    let y0 = (py / height) * 2.0 - 1.0;
+                    let x = 0;
+                    let y = 0;
+                    let iteration = 0;
+        
+                    while (x * x + y * y <= 4 && iteration < maxIterations) {
+                        const xtemp = x * x - y * y + x0;
+                        y = 2 * x * y + y0;
+                        x = xtemp;
+                        iteration++;
+                    }
+        
+                    const color = iteration === maxIterations ? 0 : (iteration * 255 / maxIterations);
+                    const index = (py * width + px) * 4;
+                    output[index] = color;     // R
+                    output[index + 1] = color; // G
+                    output[index + 2] = color; // B
+                    output[index + 3] = 255;   // A
                 }
-
-                const colorValue = iteration === MAX_ITER ? 0 : (iteration / MAX_ITER) * 255;
-                const pixelIndex = (x + y * WIDTH) * 4;
-                data[pixelIndex] = colorValue;     // Red
-                data[pixelIndex + 1] = colorValue; // Green
-                data[pixelIndex + 2] = colorValue; // Blue
-                data[pixelIndex + 3] = 255;        // Alpha
             }
+            return output;
         }
 
-        ctx.putImageData(imageData, 0, 0);
-    };
+const MandelbrotWASM = () => {
+    const canvasRef = useRef(null);
 
     useEffect(() => {
-        drawMandelbrot();
-    }, [WIDTH, HEIGHT, MAX_ITER]);
+        const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                const imageData = ctx.createImageData(width, height);
+                const bufferSize = width * height * 4;
+                const start = performance.now();
+                const output = mandelbrotJS(width, height, 1000);
+                console.log(`JS Time: ${performance.now() - start}ms`);
+                imageData.data.set(output);
+                ctx.putImageData(imageData, 0, 0);
+    }, []);
 
-    return <canvas ref={canvasRef} width={WIDTH} height={HEIGHT} />;
+    return <canvas ref={canvasRef} width={1024} height={768} />;
 };
 
-export default Mandelbrot;
+export default MandelbrotWASM;
