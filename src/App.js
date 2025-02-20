@@ -5,6 +5,8 @@ import Mandelbrot from './components/Mandelbrot';
 import MandelbrotWASM from './components/MandelbrotWASM';
 import module from './wasm/functions'
 import Primes from './components/Primes';
+import GaussianBlur from './components/GaussianBlurWASM';
+import RaycastingWASM from './components/RaycastingWASM';
 
 function App() {
 
@@ -38,6 +40,8 @@ function App() {
       case 1: return <Mandelbrot />;
       case 2: return <MandelbrotWASM module={wasmModule} />;
       case 3: return <Primes module={wasmModule} />;
+      case 4: return <GaussianBlur module={wasmModule} />;
+      case 5: return <RaycastingWASM module={wasmModule} />;
       default: return null;
     }
   }
