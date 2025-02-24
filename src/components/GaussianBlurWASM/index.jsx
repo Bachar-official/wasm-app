@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { gaussianBlurJS } from "../../utils/functions";
 
 const GaussianBlur = ({ module }) => {
   const canvasRef = useRef(null);
@@ -64,28 +65,6 @@ const GaussianBlur = ({ module }) => {
     setTime((prev) => ({ ...prev, wasm: end - start }));
     ctx.putImageData(imageData, 0, 0);
     setBlurType("wasm");
-  };
-
-  // Функция Gaussian Blur для JS
-  const gaussianBlurJS = (pixels, width, height) => {
-    const temp = new Uint8ClampedArray(pixels.length);
-    const kernel = [1, 2, 1, 2, 4, 2, 1, 2, 1];
-    const kernelSum = 16;
-
-    for (let y = 1; y < height - 1; y++) {
-      for (let x = 1; x < width - 1; x++) {
-        for (let c = 0; c < 4; c++) {
-          let sum = 0;
-          for (let ky = -1; ky <= 1; ky++) {
-            for (let kx = -1; kx <= 1; kx++) {
-              sum += pixels[((y + ky) * width + (x + kx)) * 4 + c] * kernel[(ky + 1) * 3 + (kx + 1)];
-            }
-          }
-          temp[(y * width + x) * 4 + c] = sum / kernelSum;
-        }
-      }
-    }
-    pixels.set(temp);
   };
 
   return (

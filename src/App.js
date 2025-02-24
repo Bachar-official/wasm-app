@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Fibonacci from './components/Fibonacci';
 import components from './constants/components';
-import Mandelbrot from './components/Mandelbrot';
 import MandelbrotWASM from './components/MandelbrotWASM';
 import module from './wasm/functions'
 import Primes from './components/Primes';
@@ -37,11 +36,10 @@ function App() {
   const chooseComponent = () => {
     switch (page) {
       case 0: return <Fibonacci module={wasmModule} />;
-      case 1: return <Mandelbrot />;
-      case 2: return <MandelbrotWASM module={wasmModule} />;
-      case 3: return <Primes module={wasmModule} />;
-      case 4: return <GaussianBlur module={wasmModule} />;
-      case 5: return <RaycastingWASM module={wasmModule} />;
+      case 1: return <MandelbrotWASM module={wasmModule} />;
+      case 2: return <Primes module={wasmModule} />;
+      case 3: return <GaussianBlur module={wasmModule} />;
+      case 4: return <RaycastingWASM module={wasmModule} />;
       default: return null;
     }
   }

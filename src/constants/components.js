@@ -1,10 +1,9 @@
 const components = {
     0: 'Fibonacci component',
-    1: 'Mandelbrot JS',
-    2: 'Mandelbrot WASM',
-    3: 'Prime numbers component',
-    4: 'Gaussian blur component',
-    5: 'Raycasting component',
+    1: 'Mandelbrot',
+    2: 'Prime numbers component',
+    3: 'Gaussian blur component',
+    4: 'Raycasting component',
 };
 
 export default components;
