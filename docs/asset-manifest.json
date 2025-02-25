@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/wasm-app/static/css/main.e6c13ad2.css",
+    "main.js": "/wasm-app/static/js/main.3226ac5d.js",
+    "static/js/453.21110a7a.chunk.js": "/wasm-app/static/js/453.21110a7a.chunk.js",
+    "index.html": "/wasm-app/index.html",
+    "main.e6c13ad2.css.map": "/wasm-app/static/css/main.e6c13ad2.css.map",
+    "main.3226ac5d.js.map": "/wasm-app/static/js/main.3226ac5d.js.map",
+    "453.21110a7a.chunk.js.map": "/wasm-app/static/js/453.21110a7a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.3226ac5d.js"
+  ]
+}
