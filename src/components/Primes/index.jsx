@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { getPrimes } from '../../utils/functions';
 
-const COUNT = 1000;
-
 const Primes = ({ module }) => {
     const [primes, setPrimes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [time, setTime] = useState({ js: 0, wasm: 0 });
+    const [COUNT, SET_COUNT] = useState(10);
+
+    const setCount = (event) => {
+        SET_COUNT(event.target.value);
+    }
 
     const calculateJS = async () => {
         setLoading(true);
@@ -31,6 +34,8 @@ const Primes = ({ module }) => {
 
     return (loading ? <p>Loading...</p> :
         <div>
+            <p>Количество простых чисел:</p>
+            <input type="number" onChange={setCount} value={COUNT} />
             <p>Время JS: {time.js} мс | WASM: {time.wasm} мс</p>
             <button onClick={calculateJS}>JS</button>
             <button onClick={calculateWASM}>WASM</button>

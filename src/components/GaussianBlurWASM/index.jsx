@@ -69,20 +69,19 @@ const GaussianBlur = ({ module }) => {
 
   return (
     <div>
-      <h2>Gaussian Blur Comparison</h2>
       <canvas ref={canvasRef} width={800} height={600} />
       <div style={{ marginTop: "10px" }}>
         <button onClick={applyBlurJS} disabled={blurType === "js"}>
-          Apply Blur (JS)
+          JS
         </button>
         <button onClick={applyBlurWASM} disabled={blurType === "wasm"}>
-          Apply Blur (WASM)
+          WASM
         </button>
         <p>
-          Time (JS): {time.js.toFixed(2)}ms | Time (WASM): {time.wasm.toFixed(2)}ms
+          Время JS: {time.js.toFixed(2)}мс | WASM: {time.wasm.toFixed(2)}мс
         </p>
       </div>
-      {blurType && <p>Current blur: {blurType.toUpperCase()}</p>}
+      {blurType && <p>Применено размытие: {blurType.toUpperCase()}</p>}
     </div>
   );
 };

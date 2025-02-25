@@ -25,14 +25,14 @@ function Divs({ module }) {
     }
 
     return (
-        <div>
-            <p>Create 10,000 DIVs</p>
+        <div style={{textAlign: 'center'}}>
+            <p>Создать 10,000 DIVов</p>
             <p>Time (JS): {time.js.toFixed(2)} ms | Time (WASM): {time.wasm.toFixed(2)} ms</p>
             <button onClick={() => run(false)}>
-                Run JavaScript
+                JS
             </button>
             <button onClick={() => run(true)}>
-                Run WASM
+                WASM
             </button>
             <div id="container" style={{ position: 'relative', width: '1500px', height: '1500px' }}></div>
         </div>
