@@ -31,10 +31,9 @@ const Primes = ({ module }) => {
 
     return (loading ? <p>Loading...</p> :
         <div>
-            <p>Prime numbers component</p>
-            <p>Time (JS): {time.js} ms | Time (WASM): {time.wasm} ms</p>
-            <button onClick={calculateJS}>Calculate in JS</button>
-            <button onClick={calculateWASM}>Calculate in WASM</button>
+            <p>Время JS: {time.js} мс | WASM: {time.wasm} мс</p>
+            <button onClick={calculateJS}>JS</button>
+            <button onClick={calculateWASM}>WASM</button>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {primes.map((e) => <p key={`num${e}`}>{e}|</p>)}
             </div>

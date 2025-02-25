@@ -114,4 +114,18 @@ const updateParticlesJS = (particles, count, dt) => {
     }
   };
 
-export { fibonacci, mandelbrotJS, getPrimes, gaussianBlurJS, updateParticlesJS };
+const createDivsJS = () => {
+    const container = document.getElementById('container');
+    for (let i = 0; i < 10000; i++) {
+        const div = document.createElement('div');
+        div.style.width = '10px';
+        div.style.height = '10px';
+        div.style.background = `hsl(${i % 360}, 50%, 50%)`;
+        div.style.position = 'absolute';
+        div.style.left = `${(i % 100) * 15}px`;
+        div.style.top = `${Math.floor(i / 100) * 15}px`;
+        container.appendChild(div);
+    }
+}
+
+export { fibonacci, mandelbrotJS, getPrimes, gaussianBlurJS, updateParticlesJS, createDivsJS };

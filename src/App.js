@@ -6,6 +6,7 @@ import module from "./wasm/functions"; // Указывает на functions.wasm
 import Primes from "./components/Primes";
 import GaussianBlur from "./components/GaussianBlurWASM";
 import Particles from "./components/Particles";
+import Divs from "./components/Divs";
 
 function App() {
   const [page, setPage] = useState(0);
@@ -40,14 +41,15 @@ function App() {
         return <GaussianBlur module={wasmModule} />;
       case 4:
         return <Particles module={wasmModule} />;
+        case 5: return <Divs module={wasmModule} />;
       default:
         return null;
     }
   };
 
   return (
-    <div>
-      <p>Choose component to render:</p>
+    <div style={{textAlign: 'center'}}>
+      <p>Выберите компонент:</p>
       <select
         onChange={(event) => {
           setPage(+event.target.value);

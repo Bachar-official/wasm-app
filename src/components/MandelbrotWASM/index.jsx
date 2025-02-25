@@ -58,7 +58,7 @@ const MandelbrotWASM = ({ module }) => {
 
     return <div>
         <div>
-            Time (JS) : {time.js} ms | Time (WASM) : {time.wasm} ms
+            Время JS : {time.js} мс | WASM : {time.wasm} мс
         </div>
         <div>
             <button onClick={loadJs}>JS</button>
