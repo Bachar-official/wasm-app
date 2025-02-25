@@ -90,53 +90,21 @@ void gaussian_blur(uint8_t* pixels, int width, int height, int channels) {
     free(temp);
 }
 
-// Мой пример 3: Raycasting (DOOM-like рендеринг)
+EMSCRIPTEN_KEEPALIVE
+void update_particles(float* particles, int count, float dt) {
+  for (int i = 0; i < count * 4; i += 4) {
+    particles[i] += particles[i + 2] * dt;   // x += vx * dt
+    particles[i + 1] += particles[i + 3] * dt; // y += vy * dt
+    if (particles[i] < 0 || particles[i] > 800) particles[i + 2] *= -1;
+    if (particles[i + 1] < 0 || particles[i + 1] > 600) particles[i + 3] *= -1;
+  }
+}
 
 EMSCRIPTEN_KEEPALIVE
-void render(uint8_t* buffer, int width, int height, float playerX, float playerY, float playerAngle) {
-    for (int x = 0; x < width; x++) {
-        // Вычисляем угол луча
-        float rayAngle = playerAngle - 0.5 + (float)x / width;
-        float distance = 0;
-        float hitX = playerX, hitY = playerY;
-
-        // Простая комната: стены на расстоянии 5 единиц (куб 10x10)
-        while (distance < 10) {
-            hitX = playerX + distance * cos(rayAngle);
-            hitY = playerY + distance * sin(rayAngle);
-            if (hitX < 0 || hitX > 10 || hitY < 0 || hitY > 10) break;
-            // Стены на границах комнаты (x=0, x=10, y=0, y=10)
-            if (hitX < 0.1 || hitX > 9.9 || hitY < 0.1 || hitY > 9.9) break;
-            distance += 0.05; // Точный шаг для плавности
-        }
-
-        // Вычисляем высоту стены с учетом расстояния
-        int wallHeight = (int)(height / (distance * 0.5));
-        // Эффект теней: интенсивность зависит от угла относительно источника света
-        float lightAngle = 0; // Источник света прямо перед игроком (angle = 0)
-        float angleDiff = fabs(rayAngle - lightAngle);
-        float shadowIntensity = 1.0 - (angleDiff * 0.5); // Тени сильнее при большем угле
-        if (shadowIntensity < 0.2) shadowIntensity = 0.2; // Минимальная яркость
-
-        for (int y = 0; y < height; y++) {
-            int index = (y * width + x) * 4;
-            if (y < (height - wallHeight) / 2 || y > (height + wallHeight) / 2) {
-                // Пол и потолок с градиентом света
-                float floorCeilingIntensity = y < height / 2 ? 
-                    (height / 2 - y) / (float)(height / 2) : // Пол (светлее ближе к центру)
-                    (y - height / 2) / (float)(height / 2);  // Потолок (светлее ближе к центру)
-                uint8_t floorColor = (uint8_t)(100 * floorCeilingIntensity); // Более яркий серый свет
-                buffer[index] = floorColor;     // R
-                buffer[index + 1] = floorColor; // G
-                buffer[index + 2] = floorColor; // B (светлый серый пол)
-            } else {
-                // Стены (красные с тенями)
-                uint8_t intensity = (uint8_t)(255 * shadowIntensity); // Ярко-красные стены
-                buffer[index] = intensity;     // R
-                buffer[index + 1] = 0;         // G
-                buffer[index + 2] = 0;         // B
-            }
-            buffer[index + 3] = 255; // Альфа-канал
-        }
+void create_divs() {
+    for (int i = 0; i < 10000; i++) {
+        char script[256];
+        sprintf(script, "let d = document.createElement('div'); d.style.width = '10px'; d.style.height = '10px'; d.style.background = 'hsl(%d, 50%%, 50%%)'; d.style.position = 'absolute'; d.style.left = '%dpx'; d.style.top = '%dpx'; document.getElementById('container').appendChild(d);", i % 360, (i % 100) * 15, (i / 100) * 15);
+        emscripten_run_script(script);
     }
 }

@@ -87,4 +87,13 @@ const gaussianBlurJS = (pixels, width, height) => {
     pixels.set(temp);
 };
 
-export { fibonacci, mandelbrotJS, getPrimes, gaussianBlurJS };
+const updateParticlesJS = (particles, count, dt) => {
+    for (let i = 0; i < count * 4; i += 4) {
+        particles[i] += particles[i + 2] * dt;   // x += vx * dt
+        particles[i + 1] += particles[i + 3] * dt; // y += vy * dt
+        if (particles[i] < 0 || particles[i] > 800) particles[i + 2] *= -1;
+        if (particles[i + 1] < 0 || particles[i + 1] > 600) particles[i + 3] *= -1;
+      }
+  };
+
+export { fibonacci, mandelbrotJS, getPrimes, gaussianBlurJS, updateParticlesJS };
