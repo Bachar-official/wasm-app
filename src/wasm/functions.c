@@ -92,11 +92,30 @@ void gaussian_blur(uint8_t* pixels, int width, int height, int channels) {
 
 EMSCRIPTEN_KEEPALIVE
 void update_particles(float* particles, int count, float dt) {
+  // Обновление позиций
   for (int i = 0; i < count * 4; i += 4) {
     particles[i] += particles[i + 2] * dt;   // x += vx * dt
     particles[i + 1] += particles[i + 3] * dt; // y += vy * dt
     if (particles[i] < 0 || particles[i] > 800) particles[i + 2] *= -1;
     if (particles[i + 1] < 0 || particles[i + 1] > 600) particles[i + 3] *= -1;
+  }
+
+  // Проверка столкновений (O(n^2) для наглядности)
+  for (int i = 0; i < count * 4; i += 4) {
+    for (int j = i + 4; j < count * 4; j += 4) {
+      float dx = particles[i] - particles[j];
+      float dy = particles[i + 1] - particles[j + 1];
+      float dist = sqrtf(dx * dx + dy * dy);
+      if (dist < 4.0f) { // Радиус частицы = 2, столкновение при расстоянии < 4
+        // Меняем скорости (упрощённый отскок)
+        float temp_vx = particles[i + 2];
+        float temp_vy = particles[i + 3];
+        particles[i + 2] = particles[j + 2];
+        particles[i + 3] = particles[j + 3];
+        particles[j + 2] = temp_vx;
+        particles[j + 3] = temp_vy;
+      }
+    }
   }
 }
 
