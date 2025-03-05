@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Fibonacci from "./components/Fibonacci";
 import components from "./constants/components";
 import MandelbrotWASM from "./components/MandelbrotWASM";
-import module from "./wasm/functions"; // Указывает на functions.wasm
+import module from "./wasm/functions"; // Указывает на сгенерированный js
 import Primes from "./components/Primes";
 import GaussianBlur from "./components/GaussianBlurWASM";
 import Particles from "./components/Particles";
@@ -41,14 +41,14 @@ function App() {
         return <GaussianBlur module={wasmModule} />;
       case 4:
         return <Particles module={wasmModule} />;
-        case 5: return <Divs module={wasmModule} />;
+      case 5: return <Divs module={wasmModule} />;
       default:
         return null;
     }
   };
 
   return (
-    <div style={{textAlign: 'center'}}>
+    <div style={{ textAlign: 'center' }}>
       <p>Выберите компонент:</p>
       <select
         onChange={(event) => {
