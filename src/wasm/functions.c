@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <emscripten.h>
 #include <stdio.h>
-#include <math.h> // Для render (sin, cos)
+#include <math.h>
 
-// Твои существующие функции
 EMSCRIPTEN_KEEPALIVE
 void mandelbrot(int width, int height, int max_iterations, uint8_t* output) {
     for (int py = 0; py < height; py++) {
@@ -64,11 +63,10 @@ void get_primes(int n, uint32_t* primes) {
     }
 }
 
-// Мой пример 1: Gaussian Blur
 EMSCRIPTEN_KEEPALIVE
 void gaussian_blur(uint8_t* pixels, int width, int height, int channels) {
     uint8_t* temp = (uint8_t*)malloc(width * height * channels * sizeof(uint8_t));
-    float kernel[9] = {1, 2, 1, 2, 4, 2, 1, 2, 1}; // Упрощенный Gaussian kernel 3x3
+    float kernel[9] = {1, 2, 1, 2, 4, 2, 1, 2, 1};
     float kernel_sum = 16.0;
 
     for (int y = 1; y < height - 1; y++) {
